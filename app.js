@@ -1,80 +1,21 @@
 
 
+db.collection("operaciones")
+.onSnapshot((querySnapshot) => {
+    const operacion = [];
+    querySnapshot.forEach((doc) => {
+        operacion.push((doc.data()));
+    
+    });
+    console.log(operacion)
+});
 
-// db.collection("operaciones").add({
-//     first: "Belu",
-//     last: "Sanchez",
-//     born: 1988
-// })
-// .then((docRef) => {
-//     console.log("Document written with ID: ", docRef.id);
-// })
-// .catch((error) => {
-//     console.error("Error adding document: ", error);
-// });
-// db.collection("operaciones").add({
-//     first: "Belu",
-//     last: "Sanchez",
-//     born: 1988
-// })
-// .then((docRef) => {
-//     console.log("Document written with ID: ", docRef.id);
-// })
-// .catch((error) => {
-//     console.error("Error adding document: ", error);
-// });
-
-
-
-// ****************************
-//  FIREBASE
-// *****************************
-
-// const manipularOperaciones = () => {
-//     return db.collection("operaciones")
-//     .onSnapshot((querySnapshot) => {
-//       const operacionesFirebase = [];
-//       querySnapshot.forEach((doc) => {
-//         operacionesFirebase.push({
-//           ...doc.data(),
-//           idDoc: doc.id
-//         });
-//       });
-//       // console.log(operacionesFirebase)
-//     });
-
-// }
-
-//manipularOperaciones()
-
-// manipularOperaciones();
-
-
-// Leer datos de firabse
-// db.collection("operaciones")
-//   .onSnapshot((querySnapshot) => {
-//     const operaciones = [];
-//     querySnapshot.forEach((doc) => {
-//       operaciones.push({
-//         });
-//     });
-//  console.log(operaciones)
-// });
-// const obtenerOperaciones = () => {
-//     return JSON.parse(localStorage.getItem('operaciones')) || [];
-
-// }
-// let operaciones = JSON.parse(localStorage.getItem('operaciones')) || [];
 
 
 
   
   let operaciones = []
   
-
-
-
-
 
 
 
@@ -299,7 +240,11 @@ db.collection("operaciones").add({
 })
 .then((docRef) => {
     // console.log("Document written with ID: ", docRef.id);
-    
+    // Swal.fire(
+    //     'Good job!',
+    //     'You clicked the button!',
+    //     'success'
+    //   )
 })
 .catch((error) => {
     // console.error("Error adding document: ", error);
