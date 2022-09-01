@@ -1,4 +1,84 @@
 
+
+
+// db.collection("operaciones").add({
+//     first: "Belu",
+//     last: "Sanchez",
+//     born: 1988
+// })
+// .then((docRef) => {
+//     console.log("Document written with ID: ", docRef.id);
+// })
+// .catch((error) => {
+//     console.error("Error adding document: ", error);
+// });
+// db.collection("operaciones").add({
+//     first: "Belu",
+//     last: "Sanchez",
+//     born: 1988
+// })
+// .then((docRef) => {
+//     console.log("Document written with ID: ", docRef.id);
+// })
+// .catch((error) => {
+//     console.error("Error adding document: ", error);
+// });
+
+
+
+// ****************************
+//  FIREBASE
+// *****************************
+
+// const manipularOperaciones = () => {
+//     return db.collection("operaciones")
+//     .onSnapshot((querySnapshot) => {
+//       const operacionesFirebase = [];
+//       querySnapshot.forEach((doc) => {
+//         operacionesFirebase.push({
+//           ...doc.data(),
+//           idDoc: doc.id
+//         });
+//       });
+//       // console.log(operacionesFirebase)
+//     });
+
+// }
+
+//manipularOperaciones()
+
+// manipularOperaciones();
+
+
+// Leer datos de firabse
+// db.collection("operaciones")
+//   .onSnapshot((querySnapshot) => {
+//     const operaciones = [];
+//     querySnapshot.forEach((doc) => {
+//       operaciones.push({
+//         });
+//     });
+//  console.log(operaciones)
+// });
+// const obtenerOperaciones = () => {
+//     return JSON.parse(localStorage.getItem('operaciones')) || [];
+
+// }
+// let operaciones = JSON.parse(localStorage.getItem('operaciones')) || [];
+
+
+
+  
+  let operaciones = []
+  
+
+
+
+
+
+
+
+//let operaciones = []
 //OPERACIONES
 const descripcionInput = document.getElementById('descripcion-input');
 const montoInput = document.getElementById('monto-input');
@@ -130,16 +210,7 @@ btnPanelEditarCancelar.addEventListener('click', () => {
     containerNvaOperacion.style = 'display:none'; 
 })
 
-// ****************************
-//  LOCAL STORAGE OPERACIONES
-// *****************************
-const manipularOperaciones = () => {
-    return JSON.parse(localStorage.getItem('operaciones')) || [];
 
-}
-
-manipularOperaciones()
-let operaciones = manipularOperaciones();
 
 // *****************
 //  SELECT FILTRO 
@@ -175,7 +246,6 @@ const generarMonto = ()=>{
 };
 
 
-
 const generarOrdenarOperaciones = ()=>{
     const select = document.getElementById('select-ordenar');
         for(let i = 0; i < filtroOrdenar.length; i++){
@@ -196,20 +266,45 @@ const mostrarOperaciones = (arreglo) => {
     }
 };
 
+
+
+
+
+db.collection("users").add({
+ operaciones
+})
+.then((docRef) => {
+// console.log("Document written with ID: ", docRef.id);
+})
+.catch((error) => {
+// console.error("Error adding document: ", error);
+});
+
+
+
+
+
 agregarOperacionBtn.addEventListener('click', () => {
     if(descripcionInput.value.trim().length === 0 || montoInput.value == 0){
        return
     }
-    const operacion = {
-        id: uuidv4(),
+
+
+db.collection("operaciones").add({
         descripcion: descripcionInput.value,
         monto: montoInput.value,
         tipo: tipoOperacion.value,
         categoria: categoriaSelect.value,
         fecha: fechaInput.value
+})
+.then((docRef) => {
+    // console.log("Document written with ID: ", docRef.id);
+    
+})
+.catch((error) => {
+    // console.error("Error adding document: ", error);
+});
 
-    }
-    operaciones.push(operacion)
 
     primeraPagina.style = 'display:block';
     containerNvaOperacion.style = 'display:none';
@@ -221,10 +316,10 @@ agregarOperacionBtn.addEventListener('click', () => {
     categoriaSelect.value = 'Comida'
     fechaInput.valueAsDate = new Date()
     mostrarOperaciones(operaciones)
-    localStorage.setItem('operaciones', JSON.stringify(operaciones))
     pintarOperaciones(operaciones)
     pintarBalance(operaciones)
     pintarPanelCategoria(operaciones)
+    saveOperacion()
 });
 
 const pintarOperaciones = arr =>{
@@ -251,8 +346,8 @@ const pintarOperaciones = arr =>{
     btnBorrar.forEach(btn => {
         btn.addEventListener('click', (e) =>{      
             const borradoDeoperacion = operaciones.filter(operacion => operacion.id !== e.target.dataset.id )
-            localStorage.setItem('operaciones',JSON.stringify(borradoDeoperacion))
-            operaciones = JSON.parse(localStorage.getItem('operaciones'))
+            //localStorage.setItem('operaciones',JSON.stringify(borradoDeoperacion))
+            //operaciones = JSON.parse(localStorage.getItem('operaciones'))
             pintarOperaciones(operaciones);
             mostrarOperaciones(operaciones);
             pintarBalance(operaciones)
@@ -311,8 +406,8 @@ const nuevaOperacionpanelEditar = () =>{
         ? operacionPanelEditar
         : operacion
         )
-        localStorage.setItem('operaciones',JSON.stringify(nuevaOperacionEditada))
-        operaciones = JSON.parse(localStorage.getItem('operaciones'))
+        //localStorage.setItem('operaciones',JSON.stringify(nuevaOperacionEditada))
+        //operaciones = JSON.parse(localStorage.getItem('operaciones'))
         
         mostrarOperaciones(operaciones);
         pintarOperaciones(operaciones);
@@ -445,7 +540,7 @@ selectOrdenar.addEventListener('change', acumularFiltro);
 //  CATEGORIAS
 //****************
 
-let objetoCategorias = JSON.parse(localStorage.getItem('categorias')) || [
+let objetoCategorias =  [
     {
     categoria: 'Comida',
     id: uuidv4(),
@@ -488,7 +583,7 @@ const generarSelectCategorias = ()=>{
             select.innerHTML =''
         }
         for(let j = 0; j < objetoCategorias.length; j++){
-            select.innerHTML += `<option value=${objetoCategorias[j].categoria}>${objetoCategorias[j].categoria}</option>`
+            select.innerHTML += `<option value="${objetoCategorias[j].categoria}">${objetoCategorias[j].categoria}</option>`
         
         }
     }
@@ -512,8 +607,8 @@ btnAgregarCategoria.addEventListener('click', () => {
     objetoCategorias.push(categoriaAdicional);
 
     inputAgregarCategoria.value = '';
-    localStorage.setItem('categorias', JSON.stringify(objetoCategorias));
-    objetoCategorias = JSON.parse(localStorage.getItem('categorias'));
+    //Storage.setItem('categorias', JSON.stringify(objetoCategorias));
+    //objetoCategorias = JSON.parse(localStorage.getItem('categorias'));
 
     pintarPanelCategoria(objetoCategorias);
     generarSelectCategorias(objetoCategorias);
@@ -548,16 +643,16 @@ const pintarPanelCategoria = arr =>{
             const nombreCategoria = e.target.value
             //elimino la categoria en el panel categoria y en los selects
             const eliminarCategoria = objetoCategorias.filter(categoria => categoria.id !== e.target.dataset.id);
-            localStorage.setItem('categorias',JSON.stringify(eliminarCategoria));
-            objetoCategorias = JSON.parse(localStorage.getItem('categorias'));
+            //localStorage.setItem('categorias',JSON.stringify(eliminarCategoria));
+            //objetoCategorias = JSON.parse(localStorage.getItem('categorias'));
             pintarPanelCategoria(objetoCategorias);
             generarSelectCategorias(objetoCategorias)
     
             //elemina las operaciones con la misma categoria elimada
             operaciones.forEach((element) => {
             const filtraNombreCategoriaYOperacion = operaciones.filter((operacion) => operacion.categoria !== nombreCategoria);
-            localStorage.setItem('operaciones',JSON.stringify(filtraNombreCategoriaYOperacion));
-            operaciones = JSON.parse(localStorage.getItem('operaciones'));
+            //localStorage.setItem('operaciones',JSON.stringify(filtraNombreCategoriaYOperacion));
+            //operaciones = JSON.parse(localStorage.getItem('operaciones'));
             pintarOperaciones(operaciones);
             mostrarOperaciones(operaciones);
             pintarBalance(operaciones)
@@ -607,8 +702,8 @@ const pintarPanelCategoria = arr =>{
                 ? categoriaEditada
                 : objetoCategorias
             )
-                localStorage.setItem('categorias',JSON.stringify(agregarCategoriaEditada));
-                objetoCategorias = JSON.parse(localStorage.getItem('categorias'));
+                //localStorage.setItem('categorias',JSON.stringify(agregarCategoriaEditada));
+                //objetoCategorias = JSON.parse(localStorage.getItem('categorias'));
                 generarSelectCategorias(objetoCategorias);
                 pintarPanelCategoria(objetoCategorias); 
 
@@ -792,7 +887,7 @@ const inicializar = () => {
     generarOrdenarOperaciones();
     mostrarOperaciones(operaciones);
     pintarOperaciones(operaciones);
-    totalPorCategoria(operaciones, objetoCategorias)
+    //totalPorCategoria(operaciones, objetoCategorias)
 
 }
 
