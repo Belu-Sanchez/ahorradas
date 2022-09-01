@@ -1,25 +1,3 @@
-
-
-db.collection("operaciones")
-.onSnapshot((querySnapshot) => {
-    const operacion = [];
-    querySnapshot.forEach((doc) => {
-        operacion.push((doc.data()));
-    
-    });
-    console.log(operacion)
-});
-
-
-
-
-  
-  let operaciones = []
-  
-
-
-
-//let operaciones = []
 //OPERACIONES
 const descripcionInput = document.getElementById('descripcion-input');
 const montoInput = document.getElementById('monto-input');
@@ -75,6 +53,67 @@ const reportes = document.getElementById('reportes');
 const containerReportes = document.getElementById('container-reportes');
 const conReportes = document.getElementById('con-reportes');
 const sinReportes = document.getElementById('sin-reportes');
+
+
+
+
+db.collection("operaciones")
+    .onSnapshot((querySnapshot) => {
+        const operacion = [];
+        querySnapshot.forEach((doc) => {
+            operacion.push({ 
+            ...doc.data(),
+            idDoc: doc.id
+            }
+            );
+        
+        });
+    
+         
+    if(!operacion.length){
+        sinOperaciones.classList.remove('d-none');
+        conOperaciones.classList.add('d-none'); 
+    }else{
+        sinOperaciones.classList.add('d-none');
+        conOperaciones.classList.remove('d-none');
+    }
+        
+    db.collection("operaciones").get().then((querySnapshot) => {
+         let str = '';
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            // console.log(doc.id, " => ", doc.data());    
+         str += `<tr>
+            <td scope="row">${doc.data().descripcion}</td>
+            <td><span class="btn-titulo-categorias p-2">${doc.data().categoria}</span></td>
+            <td>${doc.data().fecha}</td>
+            <td class="fw-bold ${doc.data().tipo === 'Ganancia'?'ganancia':'gasto'}">$${doc.data().monto}</td>
+            <td><a class="btn-editar p-2 text-decoration-none link-secondary" data-id=${doc.id} href="#">Editar</a>
+            <a class="btn-borrar p-2 text-decoration-none link-secondary" data-id=${doc.id} href="#">Borrar</a>
+            </td>
+        </th>` 
+       
+
+    document.getElementById('tabla-operaciones').innerHTML= str;
+
+
+        });
+
+     
+    });
+
+
+
+    
+});
+    
+
+
+
+
+  
+  let operaciones = []
+  
 
 // *****************
 //      VISTAS
@@ -198,14 +237,28 @@ const generarOrdenarOperaciones = ()=>{
 //     OPERACIONES
 // *****************
 const mostrarOperaciones = (arreglo) => {
-    if(!arreglo.length){
-        sinOperaciones.classList.remove('d-none');
-        conOperaciones.classList.add('d-none'); 
-    }else{
-        sinOperaciones.classList.add('d-none');
-        conOperaciones.classList.remove('d-none');
-    }
+ 
 };
+
+
+// db.collection("operaciones").get().then((querySnapshot) => {
+//     querySnapshot.forEach((doc) => {
+//         // doc.data() is never undefined for query doc snapshots
+//         // console.log(doc.id, " => ", doc.data());
+//         console.log(doc.data())
+//      if(!doc.length){
+//         sinOperaciones.classList.remove('d-none');
+//         conOperaciones.classList.add('d-none'); 
+//     }else{
+//         sinOperaciones.classList.add('d-none');
+//         conOperaciones.classList.remove('d-none');
+//     }
+
+
+//     });
+
+//     // console.log(operacion)
+// });
 
 
 
@@ -267,30 +320,94 @@ db.collection("operaciones").add({
     saveOperacion()
 });
 
-const pintarOperaciones = arr =>{
-    let str = '';
-    arr.forEach((operacion) => {
-        const {id, descripcion, categoria, fecha, monto, tipo} = operacion;
-        str = str + `<tr>
-            <td scope="row">${descripcion}</td>
-            <td><span class="btn-titulo-categorias p-2">${categoria}</span></td>
-            <td>${fecha}</td>
-            <td class="fw-bold ${tipo === 'Ganancia'?'ganancia':'gasto'}">$${monto}</td>
-            <td><a class="btn-editar p-2 text-decoration-none link-secondary" data-id=${id} href="#">Editar</a>
-            <a class="btn-borrar p-2 text-decoration-none link-secondary" data-id=${id} href="#">Borrar</a>
-            </td>
-        </th>` 
-      
-    })
 
-    document.getElementById('tabla-operaciones').innerHTML= str;
+// db.collection("operaciones").get().then((querySnapshot) => {
+//         querySnapshot.forEach((doc) => {
+//             // doc.data() is never undefined for query doc snapshots
+//             // console.log(doc.id, " => ", doc.data());
+//         let str = '';
+//              str = str + `<tr>
+//             <td scope="row">${doc.data().descripcion}</td>
+//             <td><span class="btn-titulo-categorias p-2">${doc.data().categoria}</span></td>
+//             <td>${doc.data().fecha}</td>
+//             <td class="fw-bold ${doc.data().tipo === 'Ganancia'?'ganancia':'gasto'}">$${doc.data().monto}</td>
+//             <td><a class="btn-editar p-2 text-decoration-none link-secondary" data-id=${doc.id} href="#">Editar</a>
+//             <a class="btn-borrar p-2 text-decoration-none link-secondary" data-id=${doc.id} href="#">Borrar</a>
+//             </td>
+//         </th>` 
+       
+//  console.log(str)
+//     document.getElementById('tabla-operaciones').innerHTML= str;
+
+
+//         });
+
+//         // console.log(operacion)
+//     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const pintarOperaciones = arr =>{
+//     db.collection("operaciones").get().then((querySnapshot) => {
+//         querySnapshot.forEach((doc) => {
+//             // doc.data() is never undefined for query doc snapshots
+//             // console.log(doc.id, " => ", doc.data());
+//         let str = '';
+//              str = str + `<tr>
+//             <td scope="row">${doc.data().descripcion}</td>
+//             <td><span class="btn-titulo-categorias p-2">${doc.data().categoria}</span></td>
+//             <td>${doc.data().fecha}</td>
+//             <td class="fw-bold ${doc.data().tipo === 'Ganancia'?'ganancia':'gasto'}">$${doc.data().monto}</td>
+//             <td><a class="btn-editar p-2 text-decoration-none link-secondary" data-id=${doc.id} href="#">Editar</a>
+//             <a class="btn-borrar p-2 text-decoration-none link-secondary" data-id=${doc.id} href="#">Borrar</a>
+//             </td>
+//         </th>` 
+       
+//  console.log(str)
+//     document.getElementById('tabla-operaciones').innerHTML= str;
+
+
+//         });
+
+//         // console.log(operacion)
+//     });
+
+    //let str = '';
+    // arr.forEach((operacion) => {
+    //     const {id, descripcion, categoria, fecha, monto, tipo} = operacion;
+   
+      
+    // })
+
 
     const btnEditar = document.querySelectorAll('.btn-editar');
     const btnBorrar = document.querySelectorAll('.btn-borrar');
  
     btnBorrar.forEach(btn => {
         btn.addEventListener('click', (e) =>{      
-            const borradoDeoperacion = operaciones.filter(operacion => operacion.id !== e.target.dataset.id )
+            db.collection("operaciones").doc(doc.id).delete()
+            .then(() => {
+            const borradoDeoperacion = operaciones.filter(operacion => operacion.id !== doc.id)
+//console.log(borradoDeoperacion)
+              console.log("Document successfully deleted!");
+               console.log(operaciones)
+            }).catch((error) => {
+              console.error("Error removing document: ", error);
+            });
+            
             //localStorage.setItem('operaciones',JSON.stringify(borradoDeoperacion))
             //operaciones = JSON.parse(localStorage.getItem('operaciones'))
             pintarOperaciones(operaciones);
@@ -310,6 +427,10 @@ const pintarOperaciones = arr =>{
         })
     })
 
+ 
+
+
+ 
 };
 
 
@@ -831,8 +952,8 @@ const inicializar = () => {
     generarSelectCategorias();
     generarOrdenarOperaciones();
     mostrarOperaciones(operaciones);
-    pintarOperaciones(operaciones);
     //totalPorCategoria(operaciones, objetoCategorias)
+   pintarOperaciones(operaciones);
 
 }
 
