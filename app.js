@@ -96,9 +96,48 @@ db.collection("operaciones")
 
     document.getElementById('tabla-operaciones').innerHTML= str;
 
+ const btnEditar = document.querySelectorAll('.btn-editar');
+        const btnBorrar = document.querySelectorAll('.btn-borrar');
+     
+        btnBorrar.forEach(btn => {
+            btn.addEventListener('click', (e) =>{      
+                db.collection("operaciones").doc(doc.id).delete()  
+                .then(() => {
+                  console.log("Document successfully deleted!");         
+                }).catch((error) => {
+                  console.error("Error removing document: ", error);
+                });
+                pintarOperaciones(operaciones);
+                mostrarOperaciones(operaciones);
+                pintarBalance(operaciones)
+            })
+        })
+    
+        btnEditar.forEach(btn => {
+            btn.addEventListener('click', (e) =>{
+                containerEditarOperacion.style = 'display:block';
+                containerNvaOperacion.style = 'display:none';
+                primeraPagina.style = 'display:none';
+                cardOperaciones.style = 'display:none';
+                const editarOperacion = operaciones.filter(operacion => operacion.id === e.target.dataset.id)
+                operacionEditar(editarOperacion)
+            })
+        })
+
+
+
+
+
+
+
+
+
+
+
+
 
         });
-
+       
      
     });
 
@@ -393,39 +432,39 @@ const pintarOperaciones = arr =>{
     // })
 
 
-    const btnEditar = document.querySelectorAll('.btn-editar');
-    const btnBorrar = document.querySelectorAll('.btn-borrar');
+//     const btnEditar = document.querySelectorAll('.btn-editar');
+//     const btnBorrar = document.querySelectorAll('.btn-borrar');
  
-    btnBorrar.forEach(btn => {
-        btn.addEventListener('click', (e) =>{      
-            db.collection("operaciones").doc(doc.id).delete()
-            .then(() => {
-            const borradoDeoperacion = operaciones.filter(operacion => operacion.id !== doc.id)
-//console.log(borradoDeoperacion)
-              console.log("Document successfully deleted!");
-               console.log(operaciones)
-            }).catch((error) => {
-              console.error("Error removing document: ", error);
-            });
+//     btnBorrar.forEach(btn => {
+//         btn.addEventListener('click', (e) =>{      
+//             db.collection("operaciones").doc(doc.id).delete()
+//             .then(() => {
+//             const borradoDeoperacion = operaciones.filter(operacion => operacion.id !== doc.id)
+// console.log(borradoDeoperacion)
+//               console.log("Document successfully deleted!");
+//                console.log(operaciones)
+//             }).catch((error) => {
+//               console.error("Error removing document: ", error);
+//             });
             
-            //localStorage.setItem('operaciones',JSON.stringify(borradoDeoperacion))
-            //operaciones = JSON.parse(localStorage.getItem('operaciones'))
-            pintarOperaciones(operaciones);
-            mostrarOperaciones(operaciones);
-            pintarBalance(operaciones)
-        })
-    })
+//             //localStorage.setItem('operaciones',JSON.stringify(borradoDeoperacion))
+//             //operaciones = JSON.parse(localStorage.getItem('operaciones'))
+//             pintarOperaciones(operaciones);
+//             mostrarOperaciones(operaciones);
+//             pintarBalance(operaciones)
+//         })
+//     })
 
-    btnEditar.forEach(btn => {
-        btn.addEventListener('click', (e) =>{
-            containerEditarOperacion.style = 'display:block';
-            containerNvaOperacion.style = 'display:none';
-            primeraPagina.style = 'display:none';
-            cardOperaciones.style = 'display:none';
-            const editarOperacion = operaciones.filter(operacion => operacion.id === e.target.dataset.id)
-            operacionEditar(editarOperacion)
-        })
-    })
+//     btnEditar.forEach(btn => {
+//         btn.addEventListener('click', (e) =>{
+//             containerEditarOperacion.style = 'display:block';
+//             containerNvaOperacion.style = 'display:none';
+//             primeraPagina.style = 'display:none';
+//             cardOperaciones.style = 'display:none';
+//             const editarOperacion = operaciones.filter(operacion => operacion.id === e.target.dataset.id)
+//             operacionEditar(editarOperacion)
+//         })
+//     })
 
  
 
