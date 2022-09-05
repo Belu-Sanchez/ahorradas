@@ -165,7 +165,7 @@ db.collection("operaciones")
             <td><span class="btn-titulo-categorias p-2">${doc.data().categoria}</span></td>
             <td>${doc.data().fecha}</td>
             <td class="fw-bold ${doc.data().tipo === 'Ganancia'?'ganancia':'gasto'}">$${doc.data().monto}</td>
-            <td><a class="btn-editar p-2 text-decoration-none link-secondary" data-id=${doc.id} href="#">Editar</a>
+            <td><a class="btn-editar p-2 text-decoration-none link-secondary" onclick="editar('${doc.id}', '${doc.data().descripcion}', '${doc.data().categoria}', '${doc.data().monto}', '${doc.data().fecha}', '${doc.data().tipo}') href="#">Editar</a>
             <a class="btn-borrar p-2 text-decoration-none link-secondary" data-id=${doc.id} href="#">Borrar</a>
             </td>
         </th>` 
@@ -179,6 +179,7 @@ db.collection("operaciones")
         btnBorrar.forEach(btn => {
             btn.addEventListener('click', (e) =>{      
                 db.collection("operaciones").doc(doc.id).delete()  
+                
                 .then(() => {
                   console.log("Document successfully deleted!");         
                 }).catch((error) => {
@@ -190,30 +191,30 @@ db.collection("operaciones")
             })
         })
     
+///ME QUEDE EN BTN EDITAR OPERACION
         btnEditar.forEach(btn => {
             btn.addEventListener('click', (e) =>{
                 containerEditarOperacion.style = 'display:block';
                 containerNvaOperacion.style = 'display:none';
                 primeraPagina.style = 'display:none';
                 cardOperaciones.style = 'display:none';
-                const editarOperacion = operaciones.filter(operacion => operacion.id === e.target.dataset.id)
-                operacionEditar(editarOperacion)
+             
+            panelEditarDescripcionInput.value = descripcion
+            panelEditarMontoInput.value = monto
+            panelEditarTipoOperacion.value= tipo
+            panelEditarCategoriaSelect = categoira
+            panelEeditarFechaInput = fecha
 
 
-                var washingtonRef = db.collection("operaciones").doc(doc.id);
 
-                panelEditarMontoInput.value = monto;
-                panelEditarDescripcionInput.value = descripcion;
-                panelEditarTipoOperacion.value = tipo;
-                panelEditarCategoriaSelect.value = categoria;
-                panelEeditarFechaInput.value = fecha;
-    
+
+                var washingtonRef = db.collection("operaciones").doc(doc.id, doc.data().descripcion, doc.data().monto, doc.data().categoria, doc.data().fecha, doc.data().tipo);    
 
                 // Set the "capital" field of the city 'DC'
                 return washingtonRef.update({
-                    descripcion: descripcionInput.value,
-                    monto: montoInput.value,
-                    tipo: tipoOperacion.value,
+                    descripcion: doc.data().descripcion,
+                    monto: doc.data().dmonto,
+                    tipo: doc.data().descripcio,
                     categoria: categoriaSelect.value,
                     fecha: fechaInput.value
                 })
@@ -225,40 +226,17 @@ db.collection("operaciones")
                     console.error("Error updating document: ", error);
                 });
 
-// ME QUEDE EN EDITAR OPERACION.
-
-
-
-
-
-
 
             })
         })
 
 
-
-
-
-
-
-
-
-
-
         });
        
-     
-    });
-
-
-
+       });
     
 });
     
-
-
-
 
   
   let operaciones = []
@@ -313,28 +291,6 @@ const generarOrdenarOperaciones = ()=>{
 const mostrarOperaciones = (arreglo) => {
  
 };
-
-
-// db.collection("operaciones").get().then((querySnapshot) => {
-//     querySnapshot.forEach((doc) => {
-//         // doc.data() is never undefined for query doc snapshots
-//         // console.log(doc.id, " => ", doc.data());
-//         console.log(doc.data())
-//      if(!doc.length){
-//         sinOperaciones.classList.remove('d-none');
-//         conOperaciones.classList.add('d-none'); 
-//     }else{
-//         sinOperaciones.classList.add('d-none');
-//         conOperaciones.classList.remove('d-none');
-//     }
-
-
-//     });
-
-//     // console.log(operacion)
-// });
-
-
 
 
 
@@ -395,120 +351,9 @@ db.collection("operaciones").add({
 });
 
 
-// db.collection("operaciones").get().then((querySnapshot) => {
-//         querySnapshot.forEach((doc) => {
-//             // doc.data() is never undefined for query doc snapshots
-//             // console.log(doc.id, " => ", doc.data());
-//         let str = '';
-//              str = str + `<tr>
-//             <td scope="row">${doc.data().descripcion}</td>
-//             <td><span class="btn-titulo-categorias p-2">${doc.data().categoria}</span></td>
-//             <td>${doc.data().fecha}</td>
-//             <td class="fw-bold ${doc.data().tipo === 'Ganancia'?'ganancia':'gasto'}">$${doc.data().monto}</td>
-//             <td><a class="btn-editar p-2 text-decoration-none link-secondary" data-id=${doc.id} href="#">Editar</a>
-//             <a class="btn-borrar p-2 text-decoration-none link-secondary" data-id=${doc.id} href="#">Borrar</a>
-//             </td>
-//         </th>` 
-       
-//  console.log(str)
-//     document.getElementById('tabla-operaciones').innerHTML= str;
 
 
-//         });
-
-//         // console.log(operacion)
-//     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const pintarOperaciones = arr =>{
-//     db.collection("operaciones").get().then((querySnapshot) => {
-//         querySnapshot.forEach((doc) => {
-//             // doc.data() is never undefined for query doc snapshots
-//             // console.log(doc.id, " => ", doc.data());
-//         let str = '';
-//              str = str + `<tr>
-//             <td scope="row">${doc.data().descripcion}</td>
-//             <td><span class="btn-titulo-categorias p-2">${doc.data().categoria}</span></td>
-//             <td>${doc.data().fecha}</td>
-//             <td class="fw-bold ${doc.data().tipo === 'Ganancia'?'ganancia':'gasto'}">$${doc.data().monto}</td>
-//             <td><a class="btn-editar p-2 text-decoration-none link-secondary" data-id=${doc.id} href="#">Editar</a>
-//             <a class="btn-borrar p-2 text-decoration-none link-secondary" data-id=${doc.id} href="#">Borrar</a>
-//             </td>
-//         </th>` 
-       
-//  console.log(str)
-//     document.getElementById('tabla-operaciones').innerHTML= str;
-
-
-//         });
-
-//         // console.log(operacion)
-//     });
-
-    //let str = '';
-    // arr.forEach((operacion) => {
-    //     const {id, descripcion, categoria, fecha, monto, tipo} = operacion;
-   
-      
-    // })
-
-
-//     const btnEditar = document.querySelectorAll('.btn-editar');
-//     const btnBorrar = document.querySelectorAll('.btn-borrar');
- 
-//     btnBorrar.forEach(btn => {
-//         btn.addEventListener('click', (e) =>{      
-//             db.collection("operaciones").doc(doc.id).delete()
-//             .then(() => {
-//             const borradoDeoperacion = operaciones.filter(operacion => operacion.id !== doc.id)
-// console.log(borradoDeoperacion)
-//               console.log("Document successfully deleted!");
-//                console.log(operaciones)
-//             }).catch((error) => {
-//               console.error("Error removing document: ", error);
-//             });
-            
-//             //localStorage.setItem('operaciones',JSON.stringify(borradoDeoperacion))
-//             //operaciones = JSON.parse(localStorage.getItem('operaciones'))
-//             pintarOperaciones(operaciones);
-//             mostrarOperaciones(operaciones);
-//             pintarBalance(operaciones)
-//         })
-//     })
-
-//     btnEditar.forEach(btn => {
-//         btn.addEventListener('click', (e) =>{
-//             containerEditarOperacion.style = 'display:block';
-//             containerNvaOperacion.style = 'display:none';
-//             primeraPagina.style = 'display:none';
-//             cardOperaciones.style = 'display:none';
-//             const editarOperacion = operaciones.filter(operacion => operacion.id === e.target.dataset.id)
-//             operacionEditar(editarOperacion)
-//         })
-//     })
-
- 
-
-
- 
-};
-
-
-//RECOLECTA LOS VALUE DE LA OPERACION A EDITAR
+// //RECOLECTA LOS VALUE DE LA OPERACION A EDITAR
 // const operacionEditar = arr =>{ 
 //     arr.forEach((element) =>{
 //         id = element.id
@@ -846,40 +691,6 @@ const pintarPanelCategoria = arr =>{
                 //objetoCategorias = JSON.parse(localStorage.getItem('categorias'));
                 generarSelectCategorias(objetoCategorias);
                 pintarPanelCategoria(objetoCategorias); 
-
-            // ESTO ES PARA EDITAR LA CATEGORIA EN LA OPERACION - PERO ME ESTA EDITANDO TADAS LAS OPERACIONES
-            // operaciones.forEach((element)=> { 
-            
-            //     //aca encuentro las operaciones con la misma categoria
-            //     const filtraNombreCategoriaYOperacion = operaciones.filter((operacion) => operacion.categoria === categoriaEditada.categoria);
-            //         // ACA LE QUIERO DECIR QUE SI LA CATEGORIA ES = CAMBIAR LA OPERACION
-            //         if(filtraNombreCategoriaYOperacion.categoria === categoriaEditada.categoria){
-            //             //filtraNombreCategoriaYOperacion.categoria = inputAgregarCategoriaEditada.value
-            //             const operacionCategoriaEditada = {
-            //                         id: element.id,
-            //                         monto: element.monto,
-            //                         descripcion: element.descripcion,
-            //                         tipo: element.tipo,
-            //                         categoria: inputAgregarCategoriaEditada.value,
-            //                         fecha: element.fecha,
-            //             }
-                        
-            //             const operacionCambio = operaciones.map((operacion) =>
-            //                 operacion.id === operacionCategoriaEditada.id
-            //                 ? operacionCategoriaEditada
-            //                 : operacion
-            //             )
-          
-            //             //localStorage.setItem('operaciones',JSON.stringify(operaciones));
-            //             //operaciones = JSON.parse(localStorage.getItem('operaciones'));
-                            
-            //             mostrarOperaciones(operaciones);
-            //             pintarOperaciones(operaciones);
-            //             pintarBalance(operaciones);             
-    
-            //         }
-
-            // })   
 
     
         })
